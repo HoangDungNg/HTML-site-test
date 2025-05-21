@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweet Dreams, Bao Khanh</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #0f1f38, #2a3f5f, #0f1f38);
+        font-family: "Segoe UI", sans-serif;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .container {
+        background: rgba(15, 31, 56, 0.7);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(148, 180, 255, 0.2);
+        max-width: 450px;
+        position: relative;
+        z-index: 10;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      h1 {
+        font-size: 2.4em;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        font-weight: 300;
+      }
+
+      p {
+        font-size: 1.2em;
+        line-height: 1.8;
+        margin-bottom: 25px;
+      }
+
+      .signature {
+        font-style: italic;
+        margin-top: 25px;
+        opacity: 0.8;
+      }
+
+      .heart {
+        color: #ff9abb;
+        font-size: 2.2em;
+        animation: beat 1.5s infinite;
+        text-shadow: 0 0 15px rgba(255, 154, 187, 0.7);
+        margin-top: 10px;
+      }
+
+      @keyframes beat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+      }
+
+      /* Star field */
+      .stars {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .star {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        animation: twinkle var(--duration) infinite ease-in-out;
+        opacity: 0;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: var(--brightness);
+        }
+      }
+
+      /* Shooting star */
+      .shooting-star {
+        position: absolute;
+        width: 100px;
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 1)
+        );
+        animation: shoot 8s infinite ease-out;
+        animation-delay: var(--delay);
+        opacity: 0;
+        transform: rotate(var(--angle));
+      }
+
+      @keyframes shoot {
+        0% {
+          transform: translateX(-100px) rotate(var(--angle));
+          opacity: 1;
+        }
+        10% {
+          opacity: 1;
+        }
+        20% {
+          transform: translateX(calc(100vw + 100px)) rotate(var(--angle));
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(calc(100vw + 100px)) rotate(var(--angle));
+        }
+      }
+
+      /* Moon glow */
+      .moon {
+        position: absolute;
+        top: 50px;
+        right: 50px;
+        width: 80px;
+        height: 80px;
+        background: radial-gradient(
+          circle at 25px 25px,
+          #ffffff,
+          #d3e9ff 45%,
+          rgba(211, 233, 255, 0.1) 80%
+        );
+        border-radius: 50%;
+        box-shadow: 0 0 40px rgba(211, 233, 255, 0.8);
+        z-index: 2;
+      }
+
+      /* Gentle float animation for the message container */
+      .container {
+        animation: float 6s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="moon"></div>
+    <div class="stars" id="starField"></div>
+
+    <div class="container">
+      <h1>Bảo Khánh ngủ ngon 🌙</h1>
+      <p>
+        Nếu mà bầu trời Canada quá ít sao, <br />
+        để em có thể ngắm <br />
+        Thì bây giờ anh sẽ tạo ra sao <br />
+        để đồng hành cùng em <br />
+        trong giấc ngủ hôm nay.
+      </p>
+      <p>
+        Nếu mà em khó ngủ vì suy nghĩ quá nhiều,<br />
+        Em có thể thả từng suy nghĩ tiêu cực của em<br />
+        vào những vì sao anh đã code này.<br />
+        Nó sẽ thay em gánh hết những suy nghĩ, <br />
+        áp lực học hành của em.
+      </p>
+      <div class="heart">❤️</div>
+      <p class="signature">Ryan Moore</p>
+    </div>
+
+    <script>
+      // Create stars
+      const starField = document.getElementById("starField");
+      const numberOfStars = 150;
+
+      for (let i = 0; i < numberOfStars; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+
+        // Random position
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+
+        // Random size
+        const size = Math.random() * 3;
+
+        // Random twinkle duration and brightness
+        const duration = 3 + Math.random() * 7;
+        const brightness = 0.3 + Math.random() * 0.7;
+
+        star.style.left = `${x}%`;
+        star.style.top = `${y}%`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.setProperty("--duration", `${duration}s`);
+        star.style.setProperty("--brightness", brightness);
+
+        // Random delay so they don't all twinkle at once
+        star.style.animationDelay = `${Math.random() * duration}s`;
+
+        starField.appendChild(star);
+      }
+
+      // Create shooting stars
+      const shootingStarsCount = 5;
+
+      for (let i = 0; i < shootingStarsCount; i++) {
+        const shootingStar = document.createElement("div");
+        shootingStar.classList.add("shooting-star");
+
+        // Random position and angle
+        const y = Math.random() * 70; // Keep in upper portion
+        const angle = -15 - Math.random() * 30; // Angle between -15 and -45 degrees
+        const delay = i * 3 + Math.random() * 10;
+
+        shootingStar.style.top = `${y}%`;
+        shootingStar.style.setProperty("--angle", `${angle}deg`);
+        shootingStar.style.setProperty("--delay", `${delay}s`);
+
+        starField.appendChild(shootingStar);
+      }
+    </script>
+  </body>
+</html>
