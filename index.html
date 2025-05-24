@@ -1,12 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Good Night Beautiful</title>
+    <title>Goodnight My Love 🦆</title>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
-
       * {
         margin: 0;
         padding: 0;
@@ -14,304 +12,546 @@
       }
 
       body {
-        height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: "Dancing Script", cursive;
-      }
-
-      .night-sky {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(
-          ellipse at bottom,
-          #1b2735 0%,
-          #090a0f 100%
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(
+          180deg,
+          #87ceeb 0%,
+          #4682b4 30%,
+          #2f4f4f 100%
         );
-        overflow: hidden;
-      }
-
-      .stars {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-
-      .star {
-        position: absolute;
-        background: white;
-        border-radius: 50%;
-        animation: twinkle 2s infinite alternate;
-      }
-
-      @keyframes twinkle {
-        0% {
-          opacity: 0.3;
-          transform: scale(1);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1.2);
-        }
-      }
-
-      .moon {
-        position: absolute;
-        top: 20%;
-        right: 15%;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        background: #ffeaa7;
-        box-shadow: 0 0 20px #ffeaa7, 0 0 40px #ffeaa7, 0 0 60px #ffeaa7;
-        animation: moonGlow 3s ease-in-out infinite alternate;
-      }
-
-      @keyframes moonGlow {
-        0% {
-          box-shadow: 0 0 20px #ffeaa7, 0 0 40px #ffeaa7, 0 0 60px #ffeaa7;
-        }
-        100% {
-          box-shadow: 0 0 30px #ffeaa7, 0 0 60px #ffeaa7, 0 0 80px #ffeaa7;
-        }
+        height: 100vh;
+        cursor: pointer;
       }
 
       .container {
-        text-align: center;
-        z-index: 10;
         position: relative;
-      }
-
-      .good-night-text {
-        font-size: 4rem;
-        font-weight: 700;
-        color: transparent;
-        background: linear-gradient(45deg, #ff9a9e, #fecfef, #fecfef, #ff9a9e);
-        background-size: 400% 400%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        animation: gradientShift 3s ease-in-out infinite,
-          textGlow 2s ease-in-out infinite alternate;
-        text-shadow: 0 0 20px rgba(255, 154, 158, 0.5);
-        margin-bottom: 20px;
-        transform: perspective(500px) rotateX(15deg);
-      }
-
-      @keyframes gradientShift {
-        0%,
-        100% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-      }
-
-      @keyframes textGlow {
-        0% {
-          text-shadow: 0 0 20px rgba(255, 154, 158, 0.5),
-            0 0 40px rgba(255, 154, 158, 0.3);
-          transform: perspective(500px) rotateX(15deg) scale(1);
-        }
-        100% {
-          text-shadow: 0 0 30px rgba(255, 154, 158, 0.8),
-            0 0 60px rgba(255, 154, 158, 0.5);
-          transform: perspective(500px) rotateX(15deg) scale(1.05);
-        }
-      }
-
-      .subtitle {
-        font-size: 1.5rem;
-        color: #ffeaa7;
-        opacity: 0.9;
-        animation: fadeInOut 4s ease-in-out infinite;
-        margin-bottom: 30px;
-      }
-
-      @keyframes fadeInOut {
-        0%,
-        100% {
-          opacity: 0.7;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-
-      .hearts-container {
-        position: absolute;
         width: 100%;
-        height: 100%;
-        pointer-events: none;
+        height: calc(100vh - 60px);
         overflow: hidden;
       }
 
-      .heart {
+      .pond {
         position: absolute;
-        color: #ff6b9d;
-        font-size: 20px;
-        animation: floatUp 6s linear infinite;
-        opacity: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 40%;
+        background: linear-gradient(180deg, #4682b4 0%, #2f4f4f 100%);
+        border-radius: 50% 50% 0 0;
       }
 
-      @keyframes floatUp {
+      .ripple {
+        position: absolute;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        animation: ripple-effect 2s ease-out forwards;
+      }
+
+      @keyframes ripple-effect {
         0% {
-          opacity: 0;
-          transform: translateY(100vh) rotate(0deg);
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
+          width: 0;
+          height: 0;
           opacity: 1;
         }
         100% {
+          width: 100px;
+          height: 100px;
           opacity: 0;
-          transform: translateY(-100px) rotate(360deg);
+        }
+      }
+
+      .duck {
+        position: absolute;
+        font-size: 2.5em;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        animation: bob 3s ease-in-out infinite;
+        user-select: none;
+        z-index: 2;
+      }
+
+      .duck:hover {
+        transform: scale(1.2);
+        filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.5));
+      }
+
+      .duck.clicked {
+        animation: duck-dance 0.8s ease-in-out;
+      }
+
+      @keyframes bob {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes duck-dance {
+        0%,
+        100% {
+          transform: rotate(0deg) scale(1);
+        }
+        25% {
+          transform: rotate(-15deg) scale(1.3);
+        }
+        75% {
+          transform: rotate(15deg) scale(1.3);
+        }
+      }
+
+      .lily-pad {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: #228b22;
+        border-radius: 50% 10% 50% 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 2;
+        animation: float 4s ease-in-out infinite;
+      }
+
+      .lily-pad:hover {
+        transform: scale(1.1);
+        background: #32cd32;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-5px) rotate(2deg);
+        }
+      }
+
+      .cloud {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50px;
+        animation: drift 25s infinite linear;
+      }
+
+      .cloud::before,
+      .cloud::after {
+        content: "";
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50px;
+      }
+
+      .cloud::before {
+        width: 80%;
+        height: 80%;
+        top: -50%;
+        left: 10%;
+      }
+
+      .cloud::after {
+        width: 60%;
+        height: 60%;
+        top: -30%;
+        right: 10%;
+      }
+
+      @keyframes drift {
+        0% {
+          transform: translateX(-150px);
+        }
+        100% {
+          transform: translateX(calc(100vw + 150px));
         }
       }
 
       .message {
-        font-size: 1.2rem;
-        color: #dda0dd;
-        max-width: 600px;
-        margin: 0 auto;
-        line-height: 1.6;
-        animation: messageGlow 3s ease-in-out infinite alternate;
-        padding: 20px;
-        border-radius: 15px;
-        background: rgba(255, 255, 255, 0.1);
+        position: absolute;
+        width: 85%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        opacity: 0;
+        transition: all 1.5s ease;
+        z-index: 1;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 30px;
+        border-radius: 20px;
         backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
       }
 
-      @keyframes messageGlow {
+      .message.show {
+        z-index: 4;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+
+      .message h1 {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        animation: glow 2s infinite alternate;
+      }
+
+      .message p {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes glow {
         0% {
-          box-shadow: 0 0 10px rgba(221, 160, 221, 0.3);
-          transform: translateY(0px);
+          text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
         }
         100% {
-          box-shadow: 0 0 20px rgba(221, 160, 221, 0.6);
-          transform: translateY(-5px);
+          text-shadow:
+            0 0 30px rgba(255, 255, 255, 1),
+            0 0 40px rgba(255, 215, 0, 0.5);
         }
       }
 
-      @media (max-width: 768px) {
-        .good-night-text {
-          font-size: 2.5rem;
+      .heart {
+        position: absolute;
+        color: #ff69b4;
+        font-size: 25px;
+        pointer-events: none;
+        animation: float-up 3s ease-out forwards;
+      }
+
+      @keyframes float-up {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
         }
-        .subtitle {
-          font-size: 1.2rem;
+        100% {
+          opacity: 0;
+          transform: translateY(-150px) scale(1.5) rotate(360deg);
         }
-        .message {
-          font-size: 1rem;
-          margin: 0 20px;
+      }
+
+      .quack-bubble {
+        position: absolute;
+        background: white;
+        border-radius: 50%;
+        padding: 5px 10px;
+        font-size: 14px;
+        color: #333;
+        pointer-events: none;
+        animation: bubble-up 2s ease-out forwards;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .quack-bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid white;
+      }
+
+      @keyframes bubble-up {
+        0% {
+          opacity: 1;
+          transform: translateY(0) scale(0.8);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-80px) scale(1);
+        }
+      }
+
+      .instructions {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.9);
+        text-align: center;
+        font-size: 16px;
+        animation: pulse 2s infinite;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 15px 25px;
+        border-radius: 25px;
+        backdrop-filter: blur(5px);
+        z-index: 3;
+      }
+
+      .instructions.hide {
+        display: none;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      .reeds {
+        position: absolute;
+        bottom: 0;
+        width: 10px;
+        height: 80px;
+        background: linear-gradient(to top, #2f4f4f, #228b22);
+        border-radius: 50% 50% 0 0;
+        animation: sway 4s ease-in-out infinite;
+      }
+
+      @keyframes sway {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        50% {
+          transform: rotate(3deg);
         }
       }
     </style>
   </head>
   <body>
-    <div class="night-sky">
-      <div class="stars"></div>
-      <div class="moon"></div>
-    </div>
-
-    <div class="hearts-container"></div>
-
     <div class="container">
-      <h1 class="good-night-text">Good Night</h1>
-      <p class="subtitle">Chúc Mỹ Nữ Ngủ Ngon ✨</p>
-      <div class="message">
-        Có thể em sẽ không có một giấc mơ đẹp đâu vì giấc mơ tự biết thân biết
-        phận với một mỹ nữ như em nhưng anh vẫn mong đêm nay sẽ nhẹ nhàng với em
-        💕
+      <div class="pond"></div>
+
+      <div class="message" id="message">
+        <h1>🦆🦆🦆🦆</h1>
+        <p>Đời như mấy con vịt trôi</p>
+        <p>Có khi xui xẻo trôi bà xuống mương</p>
+        <p>Dù vậy thì đám vịt này cũng trồi lên lại</p>
+        <p>Chỉ để chúc em có một ngày vui vẻ và không mệt mỏi</p>
+        <p style="margin-top: 20px; font-style: italic">
+          Have an energetic day, beauty 🍳🧃🔋🏃‍♂️
+        </p>
+      </div>
+
+      <div class="instructions" id="instruction">
+        Bấm vào vịt và mấy cái lá trôi để thấy điều kỳ diệu! 🦆✨
       </div>
     </div>
 
     <script>
-      // Create twinkling stars
-      function createStars() {
-        const starsContainer = document.querySelector(".stars");
-        const numStars = 50;
+      let ducksClicked = 0;
+      let messageRevealed = false;
+      const quackSounds = ["Quack!", "Quack quack!", "🦆", "Peep!", "Quaack!"];
 
-        for (let i = 0; i < numStars; i++) {
-          const star = document.createElement("div");
-          star.className = "star";
-          star.style.left = Math.random() * 100 + "%";
-          star.style.top = Math.random() * 100 + "%";
-          star.style.width = Math.random() * 3 + 1 + "px";
-          star.style.height = star.style.width;
-          star.style.animationDelay = Math.random() * 2 + "s";
-          star.style.animationDuration = Math.random() * 3 + 2 + "s";
-          starsContainer.appendChild(star);
+      // Create ducks swimming around
+      function createDucks() {
+        const duckEmojis = ["🦆", "🐥", "🐤", "🦆", "🐥"];
+
+        for (let i = 0; i < 6; i++) {
+          const duck = document.createElement("div");
+          duck.className = "duck";
+          duck.innerHTML = duckEmojis[i % duckEmojis.length];
+          duck.style.left = Math.random() * 80 + 10 + "%";
+          duck.style.bottom = Math.random() * 35 + 5 + "%";
+          duck.style.animationDelay = Math.random() * 3 + "s";
+
+          duck.addEventListener("click", function (e) {
+            e.stopPropagation();
+            duckClicked(this, e.clientX, e.clientY);
+          });
+
+          // Make ducks swim around slowly
+          setTimeout(() => moveDuck(duck), Math.random() * 2000);
+
+          document.querySelector(".container").appendChild(duck);
         }
       }
 
-      // Create floating hearts
-      function createHeart() {
-        const heartsContainer = document.querySelector(".hearts-container");
+      // Create lily pads
+      function createLilyPads() {
+        for (let i = 0; i < 8; i++) {
+          const pad = document.createElement("div");
+          pad.className = "lily-pad";
+          pad.style.left = Math.random() * 85 + 5 + "%";
+          pad.style.bottom = Math.random() * 30 + 5 + "%";
+          pad.style.animationDelay = Math.random() * 4 + "s";
+
+          pad.addEventListener("click", function (e) {
+            e.stopPropagation();
+            padClicked(this, e.clientX, e.clientY);
+          });
+
+          document.querySelector(".container").appendChild(pad);
+        }
+      }
+
+      // Create clouds
+      function createClouds() {
+        for (let i = 0; i < 4; i++) {
+          setTimeout(() => {
+            const cloud = document.createElement("div");
+            cloud.className = "cloud";
+            cloud.style.top = Math.random() * 30 + 5 + "%";
+            cloud.style.width = Math.random() * 80 + 60 + "px";
+            cloud.style.height = Math.random() * 40 + 30 + "px";
+            cloud.style.animationDelay = Math.random() * 5 + "s";
+            document.querySelector(".container").appendChild(cloud);
+
+            setTimeout(() => cloud.remove(), 25000);
+          }, i * 8000);
+        }
+      }
+
+      // Create reeds around the pond
+      function createReeds() {
+        for (let i = 0; i < 12; i++) {
+          const reed = document.createElement("div");
+          reed.className = "reeds";
+          reed.style.left = Math.random() * 100 + "%";
+          reed.style.height = Math.random() * 40 + 60 + "px";
+          reed.style.animationDelay = Math.random() * 4 + "s";
+          document.querySelector(".container").appendChild(reed);
+        }
+      }
+
+      // Duck clicked handler
+      function duckClicked(duck, x, y) {
+        duck.classList.add("clicked");
+        ducksClicked++;
+
+        // Create quack bubble
+        createQuackBubble(x, y);
+
+        // Create hearts
+        createHeart(x, y);
+
+        // Create ripple effect
+        createRipple(x, y);
+
+        setTimeout(() => duck.classList.remove("clicked"), 800);
+
+        if (ducksClicked >= 3 && !messageRevealed) {
+          setTimeout(revealMessage, 1000);
+          const instruction = document.getElementById("instruction");
+          if (instruction) {
+            instruction.classList.add("hide");
+          }
+        }
+      }
+
+      // Lily pad clicked handler
+      function padClicked(pad, x, y) {
+        pad.style.background = "#32CD32";
+        pad.style.transform = "scale(1.3) rotate(360deg)";
+
+        createHeart(x, y);
+        createRipple(x, y);
+
+        setTimeout(() => {
+          pad.style.background = "#228B22";
+          pad.style.transform = "scale(1)";
+        }, 500);
+
+        ducksClicked++;
+        if (ducksClicked >= 3 && !messageRevealed) {
+          setTimeout(revealMessage, 1000);
+          const instruction = document.getElementById("instruction");
+          if (instruction) {
+            instruction.classList.add("hide");
+          }
+        }
+      }
+
+      // Create quack bubble
+      function createQuackBubble(x, y) {
+        const bubble = document.createElement("div");
+        bubble.className = "quack-bubble";
+        bubble.innerHTML =
+          quackSounds[Math.floor(Math.random() * quackSounds.length)];
+        bubble.style.left = x + "px";
+        bubble.style.top = y - 50 + "px";
+        document.querySelector(".container").appendChild(bubble);
+
+        setTimeout(() => bubble.remove(), 2000);
+      }
+
+      // Create heart animation
+      function createHeart(x, y) {
+        const hearts = ["💖", "💕", "💝", "🥰", "😍"];
         const heart = document.createElement("div");
         heart.className = "heart";
-        heart.innerHTML = "💖";
-        heart.style.left = Math.random() * 100 + "%";
-        heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-        heart.style.fontSize = Math.random() * 10 + 15 + "px";
-        heartsContainer.appendChild(heart);
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = x + "px";
+        heart.style.top = y + "px";
+        document.querySelector(".container").appendChild(heart);
 
-        // Remove heart after animation
-        setTimeout(() => {
-          heart.remove();
-        }, 6000);
+        setTimeout(() => heart.remove(), 3000);
       }
 
-      // Initialize
-      createStars();
+      // Create ripple effect
+      function createRipple(x, y) {
+        const ripple = document.createElement("div");
+        ripple.className = "ripple";
+        ripple.style.left = x - 50 + "px";
+        ripple.style.top = y - 50 + "px";
+        document.querySelector(".container").appendChild(ripple);
 
-      // Create hearts periodically
-      setInterval(createHeart, 800);
+        setTimeout(() => ripple.remove(), 2000);
+      }
 
-      // Add click effect for extra hearts
-      document.addEventListener("click", (e) => {
-        for (let i = 0; i < 3; i++) {
+      // Move duck around
+      function moveDuck(duck) {
+        setInterval(
+          () => {
+            const newX = Math.random() * 80 + 10;
+            const newY = Math.random() * 35 + 5;
+            duck.style.transition = "all 3s ease-in-out";
+            duck.style.left = newX + "%";
+            duck.style.bottom = newY + "%";
+          },
+          5000 + Math.random() * 5000,
+        );
+      }
+
+      // Reveal main message
+      function revealMessage() {
+        const message = document.getElementById("message");
+        message.classList.add("show");
+        messageRevealed = true;
+
+        // Create celebration effects
+        for (let i = 0; i < 15; i++) {
           setTimeout(() => {
-            const heart = document.createElement("div");
-            heart.innerHTML = "💕";
-            heart.style.position = "absolute";
-            heart.style.left = e.clientX + "px";
-            heart.style.top = e.clientY + "px";
-            heart.style.color = "#ff6b9d";
-            heart.style.fontSize = "20px";
-            heart.style.pointerEvents = "none";
-            heart.style.animation = "floatUp 2s ease-out forwards";
-            document.body.appendChild(heart);
+            createHeart(
+              window.innerWidth / 2 + (Math.random() - 0.5) * 400,
+              window.innerHeight / 2 + (Math.random() - 0.5) * 300,
+            );
+          }, i * 150);
+        }
+      }
 
-            setTimeout(() => heart.remove(), 2000);
-          }, i * 100);
+      // Water click effect
+      document.addEventListener("click", function (e) {
+        if (
+          e.target === document.body ||
+          e.target.classList.contains("container") ||
+          e.target.classList.contains("pond")
+        ) {
+          createRipple(e.clientX, e.clientY);
         }
       });
 
-      // Add gentle parallax effect
-      document.addEventListener("mousemove", (e) => {
-        const stars = document.querySelectorAll(".star");
-        const moon = document.querySelector(".moon");
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
+      // Initialize everything
+      createDucks();
+      createLilyPads();
+      createClouds();
+      createReeds();
 
-        stars.forEach((star, index) => {
-          const speed = ((index % 3) + 1) * 0.5;
-          star.style.transform = `translate(${mouseX * speed}px, ${
-            mouseY * speed
-          }px)`;
-        });
-
-        moon.style.transform = `translate(${mouseX * 10}px, ${mouseY * 10}px)`;
-      });
+      // Periodic cloud creation
+      setInterval(createClouds, 20000);
     </script>
   </body>
 </html>
