@@ -1,557 +1,662 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Have Nice Day 🦆</title>
+    <title>Treasure Quest</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
       body {
-        overflow: hidden;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         font-family: "Arial", sans-serif;
-        background: linear-gradient(
-          180deg,
-          #87ceeb 0%,
-          #4682b4 30%,
-          #2f4f4f 100%
-        );
-        height: 100vh;
-        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
       }
 
-      .container {
-        position: relative;
-        width: 100%;
-        height: calc(100vh - 60px);
-        overflow: hidden;
+      .game-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       }
 
-      .pond {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 40%;
-        background: linear-gradient(180deg, #4682b4 0%, #2f4f4f 100%);
-        border-radius: 50% 50% 0 0;
+      .game-header {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
       }
 
-      .ripple {
-        position: absolute;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        animation: ripple-effect 2s ease-out forwards;
-      }
-
-      @keyframes ripple-effect {
-        0% {
-          width: 0;
-          height: 0;
-          opacity: 1;
-        }
-        100% {
-          width: 100px;
-          height: 100px;
-          opacity: 0;
-        }
-      }
-
-      .duck {
-        position: absolute;
+      .game-header h1 {
+        margin: 0;
         font-size: 2.5em;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        animation: bob 3s ease-in-out infinite;
-        user-select: none;
-        z-index: 2;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
       }
 
-      .duck:hover {
-        transform: scale(1.2);
-        filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.5));
+      .stats {
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
       }
 
-      .duck.clicked {
-        animation: duck-dance 0.8s ease-in-out;
+      #gameCanvas {
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 15px;
+        background: linear-gradient(45deg, #2c3e50, #34495e);
+        display: block;
+        box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.3);
       }
 
-      @keyframes bob {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
+      .controls {
+        text-align: center;
+        color: white;
+        margin-top: 15px;
+        font-size: 0.9em;
+        opacity: 0.8;
       }
 
-      @keyframes duck-dance {
-        0%,
-        100% {
-          transform: rotate(0deg) scale(1);
-        }
-        25% {
-          transform: rotate(-15deg) scale(1.3);
-        }
-        75% {
-          transform: rotate(15deg) scale(1.3);
-        }
-      }
-
-      .lily-pad {
-        position: absolute;
-        width: 30px;
-        height: 30px;
-        background: #228b22;
-        border-radius: 50% 10% 50% 50%;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 2;
-        animation: float 4s ease-in-out infinite;
-      }
-
-      .lily-pad:hover {
-        transform: scale(1.1);
-        background: #32cd32;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px) rotate(0deg);
-        }
-        50% {
-          transform: translateY(-5px) rotate(2deg);
-        }
-      }
-
-      .cloud {
-        position: absolute;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 50px;
-        animation: drift 25s infinite linear;
-      }
-
-      .cloud::before,
-      .cloud::after {
-        content: "";
-        position: absolute;
-        background: rgba(255, 255, 255, 0.8);
-        border-radius: 50px;
-      }
-
-      .cloud::before {
-        width: 80%;
-        height: 80%;
-        top: -50%;
-        left: 10%;
-      }
-
-      .cloud::after {
-        width: 60%;
-        height: 60%;
-        top: -30%;
-        right: 10%;
-      }
-
-      @keyframes drift {
-        0% {
-          transform: translateX(-150px);
-        }
-        100% {
-          transform: translateX(calc(100vw + 150px));
-        }
-      }
-
-      .message {
-        position: absolute;
-        width: 85%;
+      .victory-message {
+        position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-        opacity: 0;
-        transition: all 1.5s ease;
-        z-index: 1;
-        background: rgba(0, 0, 0, 0.3);
-        padding: 30px;
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-      }
-
-      .message.show {
-        z-index: 4;
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.1);
-      }
-
-      .message h1 {
-        font-size: 2.5em;
-        margin-bottom: 20px;
-        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-        animation: glow 2s infinite alternate;
-      }
-
-      .message p {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      }
-
-      @keyframes glow {
-        0% {
-          text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-        }
-        100% {
-          text-shadow:
-            0 0 30px rgba(255, 255, 255, 1),
-            0 0 40px rgba(255, 215, 0, 0.5);
-        }
-      }
-
-      .heart {
-        position: absolute;
-        color: #ff69b4;
-        font-size: 25px;
-        pointer-events: none;
-        animation: float-up 3s ease-out forwards;
-      }
-
-      @keyframes float-up {
-        0% {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(-150px) scale(1.5) rotate(360deg);
-        }
-      }
-
-      .quack-bubble {
-        position: absolute;
-        background: white;
-        border-radius: 50%;
-        padding: 5px 10px;
-        font-size: 14px;
+        background: linear-gradient(135deg, #ff9a9e, #fecfef);
         color: #333;
-        pointer-events: none;
-        animation: bubble-up 2s ease-out forwards;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .quack-bubble::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 0;
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 10px solid white;
-      }
-
-      @keyframes bubble-up {
-        0% {
-          opacity: 1;
-          transform: translateY(0) scale(0.8);
-        }
-        100% {
-          opacity: 0;
-          transform: translateY(-80px) scale(1);
-        }
-      }
-
-      .instructions {
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        color: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 20px;
         text-align: center;
-        font-size: 16px;
-        animation: pulse 2s infinite;
-        background: rgba(0, 0, 0, 0.3);
-        padding: 15px 25px;
-        border-radius: 25px;
-        backdrop-filter: blur(5px);
-        z-index: 3;
-      }
-
-      .instructions.hide {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         display: none;
+        z-index: 1000;
+        animation: victoryPulse 2s infinite;
       }
 
-      @keyframes pulse {
+      @keyframes victoryPulse {
         0%,
         100% {
-          opacity: 0.6;
+          transform: translate(-50%, -50%) scale(1);
         }
         50% {
-          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.05);
         }
       }
 
-      .reeds {
-        position: absolute;
-        bottom: 0;
-        width: 10px;
-        height: 80px;
-        background: linear-gradient(to top, #2f4f4f, #228b22);
-        border-radius: 50% 50% 0 0;
-        animation: sway 4s ease-in-out infinite;
+      .victory-message h2 {
+        margin: 0 0 20px 0;
+        font-size: 2.5em;
+        color: #e74c3c;
       }
 
-      @keyframes sway {
-        0%,
-        100% {
-          transform: rotate(0deg);
-        }
-        50% {
-          transform: rotate(3deg);
-        }
+      .victory-message p {
+        font-size: 1.3em;
+        margin: 10px 0;
+        line-height: 1.5;
+      }
+
+      .play-again-btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-size: 1.1em;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: transform 0.2s;
+      }
+
+      .play-again-btn:hover {
+        transform: scale(1.05);
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="pond"></div>
-
-      <div class="message" id="message">
-        <h1>🦆🦆🦆🦆</h1>
-        <p>Đời như mấy con vịt trôi</p>
-        <p>Có khi xui xẻo trôi bà xuống mương</p>
-        <p>Dù vậy thì đám vịt này cũng trồi lên lại</p>
-        <p>Chỉ để chúc em có một ngày vui vẻ và không mệt mỏi</p>
-        <p style="margin-top: 20px; font-style: italic">
-          Have an energetic day, beauty 🍳🧃🔋🏃‍♂️
-        </p>
+    <div class="game-container">
+      <div class="game-header">
+        <h1 style="margin-bottom: 20px">🏴‍☠️ Treasure Quest 💎</h1>
+        <div class="stats">
+          <span>Điểm: <span id="score">0</span></span>
+          <span>Mạng sống: <span id="lives">3</span></span>
+          <span>Tài nguyên thu thập: <span id="treasures">0</span>/5</span>
+          <span>Thời gian: <span id="timer">60</span>s</span>
+          <span>Level: <span id="level">1</span></span>
+        </div>
       </div>
 
-      <div class="instructions" id="instruction">
-        Bấm vào vịt và mấy cái lá trôi để thấy điều kỳ diệu! 🦆✨
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+      <div class="controls">
+        Xài WASD hoặc các phím mũi tên để chơi game này trong 60 giây <br />
+        🟡 Tài nguyên cơ bản (100 pts) • 🟠 Tài nguyên đặc biệt (150 pts) • Nhớ
+        né mấy con màu đỏ và cục đá màu xám!
       </div>
     </div>
 
+    <div class="victory-message" id="victoryMessage">
+      <h2>🎉 VICTORY! 🎉</h2>
+      <p>🌟 Chúc mừng mỹ nữ đã win 🌟</p>
+      <p>Vừa học giỏi vừa chơi game giỏi ai mà chịu nổi</p>
+      <p>
+        Tài năng này của nàng sẽ giúp nàng thi cử đạt 10 điểm tất cả các môn ✨
+      </p>
+      <p>Final Score: <span id="finalScore">0</span></p>
+      <button class="play-again-btn" onclick="restartGame()">Play Again</button>
+    </div>
+
     <script>
-      let ducksClicked = 0;
-      let messageRevealed = false;
-      const quackSounds = ["Quack!", "Quack quack!", "🦆", "Peep!", "Quaack!"];
+      const canvas = document.getElementById("gameCanvas");
+      const ctx = canvas.getContext("2d");
 
-      // Create ducks swimming around
-      function createDucks() {
-        const duckEmojis = ["🦆", "🐥", "🐤", "🦆", "🐥"];
+      // Game state
+      let gameState = {
+        score: 0,
+        lives: 3,
+        treasuresCollected: 0,
+        gameWon: false,
+        gameOver: false,
+        level: 1,
+        timeLeft: 60,
+      };
 
+      // Player object
+      const player = {
+        x: 50,
+        y: 300,
+        width: 30,
+        height: 30,
+        speed: 5,
+        color: "#3498db",
+      };
+
+      // Treasures array
+      let treasures = [];
+
+      // Enemies array
+      let enemies = [];
+
+      // Obstacles array
+      let obstacles = [];
+
+      // Timer for game countdown
+      let gameTimer;
+
+      // Moving treasures
+      let movingTreasures = [];
+
+      // Initialize treasures
+      function createTreasures() {
+        treasures = [];
+        movingTreasures = [];
+
+        // Create 3 static treasures
+        treasures.push({
+          x: 150,
+          y: 100,
+          width: 25,
+          height: 25,
+          collected: false,
+          type: "static",
+        });
+        treasures.push({
+          x: 400,
+          y: 500,
+          width: 25,
+          height: 25,
+          collected: false,
+          type: "static",
+        });
+        treasures.push({
+          x: 650,
+          y: 150,
+          width: 25,
+          height: 25,
+          collected: false,
+          type: "static",
+        });
+
+        // Create 2 moving treasures
+        movingTreasures.push({
+          x: 300,
+          y: 300,
+          width: 25,
+          height: 25,
+          collected: false,
+          speedX: 2,
+          speedY: 1.5,
+          type: "moving",
+        });
+        movingTreasures.push({
+          x: 500,
+          y: 200,
+          width: 25,
+          height: 25,
+          collected: false,
+          speedX: -1.5,
+          speedY: 2.5,
+          type: "moving",
+        });
+      }
+
+      // Initialize enemies
+      function createEnemies() {
+        enemies = [];
+        const enemyCount = 3 + gameState.level; // More enemies each level
+
+        for (let i = 0; i < enemyCount; i++) {
+          enemies.push({
+            x: 150 + i * 120,
+            y: 250 + (i % 3) * 100,
+            width: 25,
+            height: 25,
+            speedX: (Math.random() - 0.5) * (2 + gameState.level),
+            speedY: (Math.random() - 0.5) * (2 + gameState.level),
+            color: "#e74c3c",
+            followPlayer: i % 2 === 0, // Every other enemy follows player
+          });
+        }
+      }
+
+      // Create obstacles
+      function createObstacles() {
+        obstacles = [];
         for (let i = 0; i < 6; i++) {
-          const duck = document.createElement("div");
-          duck.className = "duck";
-          duck.innerHTML = duckEmojis[i % duckEmojis.length];
-          duck.style.left = Math.random() * 80 + 10 + "%";
-          duck.style.bottom = Math.random() * 35 + 5 + "%";
-          duck.style.animationDelay = Math.random() * 3 + "s";
-
-          duck.addEventListener("click", function (e) {
-            e.stopPropagation();
-            duckClicked(this, e.clientX, e.clientY);
+          obstacles.push({
+            x: 100 + i * 120,
+            y: 200 + (i % 2) * 200,
+            width: 40,
+            height: 40,
+            color: "#34495e",
           });
-
-          // Make ducks swim around slowly
-          setTimeout(() => moveDuck(duck), Math.random() * 2000);
-
-          document.querySelector(".container").appendChild(duck);
         }
       }
 
-      // Create lily pads
-      function createLilyPads() {
-        for (let i = 0; i < 8; i++) {
-          const pad = document.createElement("div");
-          pad.className = "lily-pad";
-          pad.style.left = Math.random() * 85 + 5 + "%";
-          pad.style.bottom = Math.random() * 30 + 5 + "%";
-          pad.style.animationDelay = Math.random() * 4 + "s";
+      // Input handling
+      const keys = {};
 
-          pad.addEventListener("click", function (e) {
-            e.stopPropagation();
-            padClicked(this, e.clientX, e.clientY);
-          });
-
-          document.querySelector(".container").appendChild(pad);
-        }
-      }
-
-      // Create clouds
-      function createClouds() {
-        for (let i = 0; i < 4; i++) {
-          setTimeout(() => {
-            const cloud = document.createElement("div");
-            cloud.className = "cloud";
-            cloud.style.top = Math.random() * 30 + 5 + "%";
-            cloud.style.width = Math.random() * 80 + 60 + "px";
-            cloud.style.height = Math.random() * 40 + 30 + "px";
-            cloud.style.animationDelay = Math.random() * 5 + "s";
-            document.querySelector(".container").appendChild(cloud);
-
-            setTimeout(() => cloud.remove(), 25000);
-          }, i * 8000);
-        }
-      }
-
-      // Create reeds around the pond
-      function createReeds() {
-        for (let i = 0; i < 12; i++) {
-          const reed = document.createElement("div");
-          reed.className = "reeds";
-          reed.style.left = Math.random() * 100 + "%";
-          reed.style.height = Math.random() * 40 + 60 + "px";
-          reed.style.animationDelay = Math.random() * 4 + "s";
-          document.querySelector(".container").appendChild(reed);
-        }
-      }
-
-      // Duck clicked handler
-      function duckClicked(duck, x, y) {
-        duck.classList.add("clicked");
-        ducksClicked++;
-
-        // Create quack bubble
-        createQuackBubble(x, y);
-
-        // Create hearts
-        createHeart(x, y);
-
-        // Create ripple effect
-        createRipple(x, y);
-
-        setTimeout(() => duck.classList.remove("clicked"), 800);
-
-        if (ducksClicked >= 3 && !messageRevealed) {
-          setTimeout(revealMessage, 1000);
-          const instruction = document.getElementById("instruction");
-          if (instruction) {
-            instruction.classList.add("hide");
-          }
-        }
-      }
-
-      // Lily pad clicked handler
-      function padClicked(pad, x, y) {
-        pad.style.background = "#32CD32";
-        pad.style.transform = "scale(1.3) rotate(360deg)";
-
-        createHeart(x, y);
-        createRipple(x, y);
-
-        setTimeout(() => {
-          pad.style.background = "#228B22";
-          pad.style.transform = "scale(1)";
-        }, 500);
-
-        ducksClicked++;
-        if (ducksClicked >= 3 && !messageRevealed) {
-          setTimeout(revealMessage, 1000);
-          const instruction = document.getElementById("instruction");
-          if (instruction) {
-            instruction.classList.add("hide");
-          }
-        }
-      }
-
-      // Create quack bubble
-      function createQuackBubble(x, y) {
-        const bubble = document.createElement("div");
-        bubble.className = "quack-bubble";
-        bubble.innerHTML =
-          quackSounds[Math.floor(Math.random() * quackSounds.length)];
-        bubble.style.left = x + "px";
-        bubble.style.top = y - 50 + "px";
-        document.querySelector(".container").appendChild(bubble);
-
-        setTimeout(() => bubble.remove(), 2000);
-      }
-
-      // Create heart animation
-      function createHeart(x, y) {
-        const hearts = ["💖", "💕", "💝", "🥰", "😍"];
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
-        heart.style.left = x + "px";
-        heart.style.top = y + "px";
-        document.querySelector(".container").appendChild(heart);
-
-        setTimeout(() => heart.remove(), 3000);
-      }
-
-      // Create ripple effect
-      function createRipple(x, y) {
-        const ripple = document.createElement("div");
-        ripple.className = "ripple";
-        ripple.style.left = x - 50 + "px";
-        ripple.style.top = y - 50 + "px";
-        document.querySelector(".container").appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 2000);
-      }
-
-      // Move duck around
-      function moveDuck(duck) {
-        setInterval(
-          () => {
-            const newX = Math.random() * 80 + 10;
-            const newY = Math.random() * 35 + 5;
-            duck.style.transition = "all 3s ease-in-out";
-            duck.style.left = newX + "%";
-            duck.style.bottom = newY + "%";
-          },
-          5000 + Math.random() * 5000,
-        );
-      }
-
-      // Reveal main message
-      function revealMessage() {
-        const message = document.getElementById("message");
-        message.classList.add("show");
-        messageRevealed = true;
-
-        // Create celebration effects
-        for (let i = 0; i < 15; i++) {
-          setTimeout(() => {
-            createHeart(
-              window.innerWidth / 2 + (Math.random() - 0.5) * 400,
-              window.innerHeight / 2 + (Math.random() - 0.5) * 300,
-            );
-          }, i * 150);
-        }
-      }
-
-      // Water click effect
-      document.addEventListener("click", function (e) {
-        if (
-          e.target === document.body ||
-          e.target.classList.contains("container") ||
-          e.target.classList.contains("pond")
-        ) {
-          createRipple(e.clientX, e.clientY);
-        }
+      document.addEventListener("keydown", (e) => {
+        keys[e.key.toLowerCase()] = true;
       });
 
-      // Initialize everything
-      createDucks();
-      createLilyPads();
-      createClouds();
-      createReeds();
+      document.addEventListener("keyup", (e) => {
+        keys[e.key.toLowerCase()] = false;
+      });
 
-      // Periodic cloud creation
-      setInterval(createClouds, 20000);
+      // Update player position
+      function updatePlayer() {
+        if (keys["w"] || keys["arrowup"]) {
+          player.y = Math.max(0, player.y - player.speed);
+        }
+        if (keys["s"] || keys["arrowdown"]) {
+          player.y = Math.min(
+            canvas.height - player.height,
+            player.y + player.speed
+          );
+        }
+        if (keys["a"] || keys["arrowleft"]) {
+          player.x = Math.max(0, player.x - player.speed);
+        }
+        if (keys["d"] || keys["arrowright"]) {
+          player.x = Math.min(
+            canvas.width - player.width,
+            player.x + player.speed
+          );
+        }
+      }
+
+      // Update enemies
+      function updateEnemies() {
+        enemies.forEach((enemy) => {
+          if (enemy.followPlayer) {
+            // Smart enemy that follows player
+            const dx = player.x - enemy.x;
+            const dy = player.y - enemy.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > 0) {
+              enemy.x += (dx / distance) * Math.abs(enemy.speedX);
+              enemy.y += (dy / distance) * Math.abs(enemy.speedY);
+            }
+          } else {
+            // Regular bouncing enemy
+            enemy.x += enemy.speedX;
+            enemy.y += enemy.speedY;
+          }
+
+          // Bounce off walls
+          if (enemy.x <= 0 || enemy.x >= canvas.width - enemy.width) {
+            enemy.speedX *= -1;
+          }
+          if (enemy.y <= 0 || enemy.y >= canvas.height - enemy.height) {
+            enemy.speedY *= -1;
+          }
+
+          // Keep enemies in bounds
+          enemy.x = Math.max(0, Math.min(canvas.width - enemy.width, enemy.x));
+          enemy.y = Math.max(
+            0,
+            Math.min(canvas.height - enemy.height, enemy.y)
+          );
+        });
+      }
+
+      // Update moving treasures
+      function updateMovingTreasures() {
+        movingTreasures.forEach((treasure) => {
+          if (!treasure.collected) {
+            treasure.x += treasure.speedX;
+            treasure.y += treasure.speedY;
+
+            // Bounce off walls
+            if (
+              treasure.x <= 0 ||
+              treasure.x >= canvas.width - treasure.width
+            ) {
+              treasure.speedX *= -1;
+            }
+            if (
+              treasure.y <= 0 ||
+              treasure.y >= canvas.height - treasure.height
+            ) {
+              treasure.speedY *= -1;
+            }
+
+            // Keep in bounds
+            treasure.x = Math.max(
+              0,
+              Math.min(canvas.width - treasure.width, treasure.x)
+            );
+            treasure.y = Math.max(
+              0,
+              Math.min(canvas.height - treasure.height, treasure.y)
+            );
+          }
+        });
+      }
+
+      // Collision detection
+      function checkCollisions() {
+        // Check static treasure collection
+        treasures.forEach((treasure) => {
+          if (
+            !treasure.collected &&
+            player.x < treasure.x + treasure.width &&
+            player.x + player.width > treasure.x &&
+            player.y < treasure.y + treasure.height &&
+            player.y + player.height > treasure.y
+          ) {
+            treasure.collected = true;
+            gameState.treasuresCollected++;
+            gameState.score += 100;
+
+            if (gameState.treasuresCollected === 5) {
+              gameState.gameWon = true;
+              clearInterval(gameTimer);
+              showVictoryMessage();
+            }
+          }
+        });
+
+        // Check moving treasure collection
+        movingTreasures.forEach((treasure) => {
+          if (
+            !treasure.collected &&
+            player.x < treasure.x + treasure.width &&
+            player.x + player.width > treasure.x &&
+            player.y < treasure.y + treasure.height &&
+            player.y + player.height > treasure.y
+          ) {
+            treasure.collected = true;
+            gameState.treasuresCollected++;
+            gameState.score += 150; // Moving treasures worth more
+
+            if (gameState.treasuresCollected === 5) {
+              gameState.gameWon = true;
+              clearInterval(gameTimer);
+              showVictoryMessage();
+            }
+          }
+        });
+
+        // Check obstacle collisions
+        obstacles.forEach((obstacle) => {
+          if (
+            player.x < obstacle.x + obstacle.width &&
+            player.x + player.width > obstacle.x &&
+            player.y < obstacle.y + obstacle.height &&
+            player.y + player.height > obstacle.y
+          ) {
+            // Push player back
+            if (player.x < obstacle.x) player.x = obstacle.x - player.width;
+            if (player.x > obstacle.x) player.x = obstacle.x + obstacle.width;
+            if (player.y < obstacle.y) player.y = obstacle.y - player.height;
+            if (player.y > obstacle.y) player.y = obstacle.y + obstacle.height;
+          }
+        });
+
+        // Check enemy collisions
+        enemies.forEach((enemy) => {
+          if (
+            player.x < enemy.x + enemy.width &&
+            player.x + player.width > enemy.x &&
+            player.y < enemy.y + enemy.height &&
+            player.y + player.height > enemy.y
+          ) {
+            gameState.lives--;
+            player.x = 50; // Reset player position
+            player.y = 300;
+
+            if (gameState.lives <= 0) {
+              gameState.gameOver = true;
+              clearInterval(gameTimer);
+              setTimeout(restartGame, 2000);
+            }
+          }
+        });
+      }
+
+      // Draw functions
+      function drawPlayer() {
+        ctx.fillStyle = player.color;
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+
+        // Add simple face
+        ctx.fillStyle = "white";
+        ctx.fillRect(player.x + 8, player.y + 8, 4, 4);
+        ctx.fillRect(player.x + 18, player.y + 8, 4, 4);
+        ctx.fillRect(player.x + 10, player.y + 18, 10, 2);
+      }
+
+      function drawTreasures() {
+        // Draw static treasures
+        treasures.forEach((treasure) => {
+          if (!treasure.collected) {
+            ctx.fillStyle = "#f1c40f";
+            ctx.fillRect(
+              treasure.x,
+              treasure.y,
+              treasure.width,
+              treasure.height
+            );
+
+            // Add shine effect
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(treasure.x + 5, treasure.y + 5, 5, 5);
+          }
+        });
+
+        // Draw moving treasures with different color
+        movingTreasures.forEach((treasure) => {
+          if (!treasure.collected) {
+            ctx.fillStyle = "#e67e22"; // Orange for moving treasures
+            ctx.fillRect(
+              treasure.x,
+              treasure.y,
+              treasure.width,
+              treasure.height
+            );
+
+            // Add shine effect
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(treasure.x + 5, treasure.y + 5, 5, 5);
+
+            // Add movement indicator
+            ctx.fillStyle = "#d35400";
+            ctx.fillRect(treasure.x + 2, treasure.y + 2, 3, 3);
+          }
+        });
+      }
+
+      function drawObstacles() {
+        obstacles.forEach((obstacle) => {
+          ctx.fillStyle = obstacle.color;
+          ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+
+          // Add texture
+          ctx.fillStyle = "#2c3e50";
+          ctx.fillRect(
+            obstacle.x + 5,
+            obstacle.y + 5,
+            obstacle.width - 10,
+            obstacle.height - 10
+          );
+        });
+      }
+
+      function drawEnemies() {
+        enemies.forEach((enemy) => {
+          ctx.fillStyle = enemy.color;
+          ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+
+          // Add angry eyes
+          ctx.fillStyle = "white";
+          ctx.fillRect(enemy.x + 6, enemy.y + 6, 3, 3);
+          ctx.fillRect(enemy.x + 16, enemy.y + 6, 3, 3);
+
+          // Add indicator for following enemies
+          if (enemy.followPlayer) {
+            ctx.fillStyle = "#c0392b";
+            ctx.fillRect(enemy.x + 10, enemy.y - 5, 5, 3);
+          }
+        });
+      }
+
+      function drawBackground() {
+        // Create a simple pattern
+        ctx.fillStyle = "rgba(52, 73, 94, 0.1)";
+        for (let i = 0; i < canvas.width; i += 50) {
+          for (let j = 0; j < canvas.height; j += 50) {
+            ctx.fillRect(i, j, 2, 2);
+          }
+        }
+      }
+
+      function updateUI() {
+        document.getElementById("score").textContent = gameState.score;
+        document.getElementById("lives").textContent = gameState.lives;
+        document.getElementById("treasures").textContent =
+          gameState.treasuresCollected;
+        document.getElementById("timer").textContent = gameState.timeLeft;
+        document.getElementById("level").textContent = gameState.level;
+      }
+
+      function startTimer() {
+        gameTimer = setInterval(() => {
+          gameState.timeLeft--;
+          if (gameState.timeLeft <= 0) {
+            gameState.gameOver = true;
+            clearInterval(gameTimer);
+            setTimeout(restartGame, 2000);
+          }
+        }, 1000);
+      }
+
+      function showVictoryMessage() {
+        document.getElementById("finalScore").textContent = gameState.score;
+        document.getElementById("victoryMessage").style.display = "block";
+      }
+
+      function restartGame() {
+        clearInterval(gameTimer);
+        gameState = {
+          score: 0,
+          lives: 3,
+          treasuresCollected: 0,
+          gameWon: false,
+          gameOver: false,
+          level: 1,
+          timeLeft: 60,
+        };
+
+        player.x = 50;
+        player.y = 300;
+
+        createTreasures();
+        createEnemies();
+        createObstacles();
+        startTimer();
+
+        document.getElementById("victoryMessage").style.display = "none";
+      }
+
+      // Game loop
+      function gameLoop() {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (!gameState.gameWon && !gameState.gameOver) {
+          // Update
+          updatePlayer();
+          updateEnemies();
+          updateMovingTreasures();
+          checkCollisions();
+
+          // Draw
+          drawBackground();
+          drawObstacles();
+          drawTreasures();
+          drawEnemies();
+          drawPlayer();
+
+          // Update UI
+          updateUI();
+        } else if (gameState.gameOver) {
+          // Game over screen
+          ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+          ctx.fillStyle = "white";
+          ctx.font = "48px Arial";
+          ctx.textAlign = "center";
+
+          if (gameState.timeLeft <= 0) {
+            ctx.fillText("Time Up!", canvas.width / 2, canvas.height / 2);
+          } else {
+            ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2);
+          }
+
+          ctx.font = "24px Arial";
+          ctx.fillText(
+            "Restarting...",
+            canvas.width / 2,
+            canvas.height / 2 + 60
+          );
+        }
+
+        requestAnimationFrame(gameLoop);
+      }
+
+      // Initialize game
+      createTreasures();
+      createEnemies();
+      createObstacles();
+      startTimer();
+      gameLoop();
     </script>
   </body>
 </html>
